@@ -61,6 +61,7 @@ var clozeCards = [question1Cloze, question2Cloze, question3Cloze, question4Cloze
 // console.log(clozeCards);
 
 var score = 0;
+var questionNumber = 0;
 
 function startGame(){
 
@@ -76,7 +77,8 @@ inquirer.prompt([
 
 	]).then(function(game) {
 
-	console.log(game.cardType);
+	console.log(game.cardType + " game!");
+	console.log("---------------------------------------------------");
 
 	if(game.cardType === "Basic"){
 		basicGame();
@@ -88,28 +90,46 @@ inquirer.prompt([
 }
 		
 function basicGame(){
-	for (var i = 0; i < basicCards.length; i++) {
+	// for (var i = 0; i < basicCards.length; i++) {
 		// 	// console.log(basicCards[i].front);
 
 			inquirer.prompt([
 		{
-			type: "recursive",
+			
 			name: "question",
-			message: basicCards[i].front
+			message: basicCards[questionNumber].front + "\nAnswer: "
 		}
 
 			]).then(function(answer){
-				if (answer.question === basicCards[i].back){
+				if (answer.question.toLowerCase() === basicCards[questionNumber].back.toLowerCase()){
 					console.log("Correct!");
 					score ++;
-					console.log("The score is " + score);
+					console.log("---------------------------------------------------");
+					
 				}else {
-					console.log("Incorrect! The correct answer is " + basicCards[0].back)
+					console.log("Incorrect! The correct answer is:  " + basicCards[questionNumber].back)
+					console.log("---------------------------------------------------");
 				}
+
+				if (questionNumber < basicCards.length - 1){
+					questionNumber ++;
+					basicGame();
+
+
+				}else{
+					console.log("Game over!");
+					console.log("Score: " + score);
+
+				}
+
+
+
+
+
 
 			})
 			
-		};
+		// };
 
 		
 		
